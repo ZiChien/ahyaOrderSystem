@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    {{!-- jquery --}}
+    <script src="js/jquery-3.6.1.js"></script>
+    {{!-- axios --}}
+    <script src="js/axios.min.js"></script>
+    {{!-- vue3 --}}
+    <script src="js/vue.global.prod.min.js"></script>
+    {{!-- fontawesome --}}
+    <script src="https://kit.fontawesome.com/358b6c58bb.js" crossorigin="anonymous"></script>
+    {{!-- moment --}}
+    <script src="js/moment.js"></script>
+    <script src="js/moment-timezone-with-data-10-year-range.js"></script>
+    {{!-- Line liff --}}
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <title>奧野豆花</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-show="isshowapp" class="mgb54">
+            <div class="ya-container taketime">
+                <h3 class="text-taketime">取餐時間</h3>
+                <div class="time">
+                    <div class="datepicker" id="datepicker">
+                        <h4 id="datepickerarea" @click="datepicker.opendate">
+                            \{{datepicker.dateformat(datepicker.taketime.date)}}</h4>
+                        <div v-show="datepicker.isdateopen.value" class="date" id="date">
+                            <div v-for="(dateitem, index) in datepicker.dateconfig.date"
+                                @click="datepicker.selectdate(dateitem.date,dateitem.enable)" class="option"
+                                :class="{disable:!dateitem.enable}">
+                                <h4>\{{datepicker.dateformat(dateitem.date)}}</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="timepicker" id="timepicker">
+                        <h4 id="timepickerarea" @click="timepicker.opentime">
+                            \{{timepicker.timeformat(datepicker.taketime.time)}}</h4>
+                        <div v-show="timepicker.istimeopen.value" class="date" id="time">
+                            <div v-for="(timeitem, index) in timepicker.timeconfig.time"
+                                @click="timepicker.selecttime(timeitem)" class="option">
+                                <h4>\{{timepicker.timeformat(timeitem)}}</h4>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ya-container">
+                <div class="ya-intro">
+                    <h1>\{{store.name}}</h1>
+                    <h4><i class="fa-solid fa-location-dot"></i>\{{store.address}}</h6>
+                        {{!-- <h3>\{{checktime}}</h3> --}}
+                </div>
+            </div>
+            <div class="ya-container">
+                <div class="series" v-for="(series,index) in menu">
+                    <h2 class="summertitle">\{{series.series}}</h2>
+                    <div class="summer">
+                        <button v-for="item in series.menucontent" :key="item.itemid" @click="openmodal(item)">
+                            <div class="summer-item">
+                                <div class="item-intro">
+                                    <h3>\{{item.itemname}}</h3>
+                                    <h4>$\{{item.itemprice}}*\{{item.iteminfo}}</h4>
+                                </div>
+                                <div class="item-img">
+                                    <img :src="item.itemimg" alt="">
+                                </div>
+                            </div>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="ya-cart">
+
+                <button @click="showcart">
+                    <div v-show="cart.length">\{{cart.length}}</div><span>查看購物車</span>
+                </button>
+            </div>
+
+            {{!-- modal --}}
+            <div v-show="modalshow" id="ya-modal" class="ya-modal">
+                <div class="ya-modaldialog">
+                    <div class="ya-modalcontent">
+                        <div class="modal-item-img">
+                            <img :src="modalitem.itemimg" alt="">
+                        </div>
+                        <div class="modal-item-intro">
+                            <h2>\{{modalitem.itemname}}</h2>
+                            <h4>$\{{modalitem.itemprice}} *\{{modalitem.iteminfo}}</h4>
+                        </div>
+                        <div class="modal-item-mtls">
+                            <div v-for="(mtl, index) in mtls.testmtls" :key="mtl.id" class="mtls"
+                                :class="{'mtl-selected' : mtl.selected}">
+                                <button @click="mtlselect(index)" class="mtl">\{{mtl.name}}</button>
+                            </div>
+                        </div>
+                        <div class="modal-item-intro">
+                            <button @click="showbonus" class="bonusbtn" :class="{clickopc:isshowbonus}">
+                                <h4>+加選 每樣$5 最多兩種 <i class="fa-solid fa-arrow-down-short-wide"></i></h4>
+                            </button>
+                        </div>
+                        <div v-show="isshowbonus" class="modal-item-mtls">
+                            <div v-for="(mtl, index) in bonusmtls.bonustestmtls" :key="mtl.id" class="mtls"
+                                :class="{'mtl-selected' : mtl.selected}">
+                                <button @click="bonusmtlselect(index)" class="mtl">\{{mtl.name}}</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-item-intro modal-item-summary">
+
+                            <h3>
+                                <span v-for="seleted in selected">\{{seleted.name}}</span>
+                                <span class="bonus" v-for="seleted in bonusselected">\{{seleted.name}}</span>
+                            </h3>
+                            <div class="modal-number">
+                                <button @click="minusnumber">-</button>
+                                <button>\{{number}}</button>
+                                <button @click="addnumber">+</button>
+                                <span> 數量:\{{number}}</span>
+                                <span> 價錢:\{{price}}</span>
+                            </div>
+                            <div class="modal-tocart">
+                                <button @click="cancel" class="cancel">取消</button>
+                                <button @click="addtocart">新增至購物車</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="modal-alert" class="modal-alert">
+                    <h4>\{{alertmsg}}</h4>
+                </div>
+            </div>
+            <div class="emptycart" v-show="isemptycart">
+                <div class="checkmodel">
+                    <h4>移除已選購的商品?</h4>
+                    <h5>您若更換日期，購物車的商品將會被清空，是否繼續?</h5>
+                    <div class="checkeokf">
+                        <button @click="openemptycart" class="cancel">取消</button>
+                        <button @click="confirmselectdate">是</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="appcart">
+        <div v-show="isshowcart" class="mgb54">
+            <div class="ya-container">
+                <div class="carttitle">
+                    <h2>購物車</h2>
+                </div>
+                <div class="cartcontentitle" :class="{clickopc:isshowcartcontent}">
+                    <button @click="showcartcontent">
+                        <h3>共\{{totalnumber}}樣餐點<i class="fa-solid fa-arrow-down-short-wide"></i></h3>
+                    </button>
+                </div>
+                <div v-show="isshowcartcontent" class="cartcontent">
+                    <div v-for="(item, index) in cart" :key="item.cartid" class="cartitem">
+                        <div class="cartiteminfo">
+                            <h3>\{{item.name}}</h3>
+                            <span v-for="mtl in item.mtls">\{{mtl.name}}</span>
+                            <span v-for="bonusmtl in item.bonusmtls" class="bonus">\{{bonusmtl.name}}</span>
+                        </div>
+                        <div class="caritemprice">
+                            <div class="numberchange">
+                                <button @click="minusnumber(index)">-</button><button>\{{item.number}}</button><button
+                                    @click="addnumber(index)">+</button>
+                            </div>
+                            <span> x \{{item.number}}</span><span>\{{item.price}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cartsum">
+                    <div class="cartiteminfo">
+                        <h3>總計</h3>
+                    </div>
+                    <div class="caritemprice fifoow51">
+                        <h3>\{{counttotal}}元</h3>
+                    </div>
+                </div>
+                <div class="cartiakot">
+                    <button @click="backtorder" class="ctk-btn backtoor">繼續點餐</button>
+                    <button @click="showapporder" class="ctk-btn confirm">確認餐點</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="apporder">
+        <div v-show="isshoworder" class="mgb54">
+            <div class="ya-container">
+                <div class="ordertitle">
+                    <h2>\{{store.name}}</h2>
+                </div>
+                <div class="ordertaketime">
+                    <h3 class="tibbp10">取餐時間</h3>
+                    <div class="time">
+                        <div class="datepicker" id="datepicker">
+                            <h4 id="datepickerarea" @click="datepicker.opendate">
+                                \{{datepicker.dateformat(datepicker.taketime.date)}}</h4>
+                            <div v-show="datepicker.isdateopen.value" class="date" id="date">
+                                <div v-for="(dateitem, index) in datepicker.dateconfig.date"
+                                    @click="datepicker.selectdate(dateitem.date,dateitem.enable)" class="option"
+                                    :class="{disable:!dateitem.enable}">
+                                    <h4>\{{datepicker.dateformat(dateitem.date)}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timepicker" id="timepicker">
+                            <h4 id="timepickerarea" @click="timepicker.opentime">
+                                \{{timepicker.timeformat(datepicker.taketime.time)}}</h4>
+                            <div v-show="timepicker.istimeopen.value" class="date" id="time">
+                                <div v-for="(timeitem, index) in timepicker.timeconfig.time"
+                                    @click="timepicker.selecttime(timeitem)" class="option">
+                                    <h4>\{{timepicker.timeformat(timeitem)}}</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="checktaketime">
+                        \{{datepicker.dateformat(formattaketime)}}\{{timepicker.timeformat(formattaketime)}}</h3>
+                </div>
+                <div class="ordertakeinfo fqie21">
+                    <h3 class="tibbp10">訂購人資訊</h3>
+                    <div class="infoform">
+                        <div class="tinfo">
+                            <label for="client_name">*姓名</label>
+                            <input v-model="clientInfo.name" type="text" id="client_name" placeholder="請輸入訂購人姓名">
+                        </div>
+                        <div class="tinfo">
+                            <label for="client_phone">*電話</label>
+                            <input v-model="clientInfo.phone" type="tel" id="client_phone" placeholder="請輸入訂購人電話">
+                        </div>
+                    </div>
+                </div>
+                <div class="orderinfo fqie21">
+                    <h3 class="tibbp10">訂單資訊</h3>
+                    <div class="oinfo">
+                        <h4>共\{{totalnumber}}樣餐點<span class="counttotal">$\{{counttotal}}</span></h4>
+                        <h4>總計<span class="counttotal">$\{{counttotal}}</span></h4>
+                        <div class="tinfo">
+                            <label for="note">備註</label>
+                            <textarea v-model="note" name="note" id="note" cols="30" rows="10"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="cartiakot ">
+                    <button @click="backtorder" class="ctk-btn backtoor">繼續點餐</button>
+                    <button @click="checksubmit" class="ctk-btn ">送出訂單</button>
+                </div>
+            </div>
+            <div id="modal-alert-order" class="modal-alert">
+                <h4>\{{alertMsg}}</h4>
+            </div>
+            <Transition>
+                <div class="emptycart" v-show="isemptycart">
+                    <div class="checkmodel">
+                        <h4>移除已選購的商品?</h4>
+                        <h5>您若更換日期，購物車的商品將會被清空，是否繼續?</h5>
+                        <div class="checkeokf">
+                            <button @click="openemptycart" class="cancel">取消</button>
+                            <button @click="confirmselectdate">是</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </Transition>
+        </div>
+
+
+        <div v-show="isShowConfirmModal" class="ya-modal" id="ya-modal-confirm">
+            <div class="ya-modaldialog confirmmodal">
+                <div class="confirmmodal-content">
+                    <h3>確認送出訂單</h3>
+                    <div class="btncf">
+                        <button @click="closemodal">取消</button>
+                        <button @click="confirmbtn">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="appresult">
+        <div v-show="isshowresult" class="mgb54 resultpage">
+            <div class="ya-container">
+                <div class="resulttitle">
+                    <h2 class="center">您的訂單已成立!</h2>
+                    <div class="takeNumber">
+                        <div class="takeNumberCube">
+                            <div class="cubetitle">
+                                <span>自取號碼</span>
+                            </div>
+                            <div class="cubecontent">
+                                <span>\{{takeNumber}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="Pcontent">請於\{{yearformat(formattaketime)}}/\{{dateformat(formattaketime)}} \{{timeformat(formattaketime)}}至本店取餐，謝謝!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="waitapi" id="waitapi">
+    </div>
+
+
+    <script src="js/client/FE_main.js"></script>
+</body>
+
+</html>

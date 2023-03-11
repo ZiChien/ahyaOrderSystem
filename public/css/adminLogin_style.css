@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: url('../img/100-100-5.png') #e0be92 ;
+    background-size: 40px 400px;
+}
+input{
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+}
+button{
+    border: none;
+    background-color: #e0be92;
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Noto Serif TC', serif;
+
+}
+.login-title{
+    width: 100%;
+}
+.login-title h1{
+    font-family: 'Noto Serif TC', serif;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
+    font-weight: 700;
+}
+.loing-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.login-content{
+    width: 369px;
+    height: 320px;
+    background-color: rgba(253,253,253);
+    border-radius: 10px;
+}
+.login-input{
+    padding: 10px 20px;
+}
+.login-input input{
+    width: 100%;
+    height: 38px;
+    border: #e0be92;
+    border-bottom: 4px solid #e0be92;
+    border-radius: 5px;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-family: 'Noto Serif TC', serif;
+
+}
+.login-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#alert{
+    margin: 2px 0;
+    text-align: center;
+    color: red;
+}

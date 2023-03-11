@@ -1,0 +1,663 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&display=swap');
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+    color: black;
+    font-family: 'Noto Serif TC', serif;
+    margin: 5px 0;
+}
+
+label {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+}
+
+input {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    border: none;
+    border-bottom: 2px solid #e0be92;
+}
+
+button {
+    border: none;
+    background-color: #e0be92;
+    border-radius: 10px;
+    width: 40px;
+    height: 14px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: black;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(253, 253, 253);
+}
+
+.container {
+    display: flex;
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+.leftbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: url('../img/100-100-5.png') #e0be92;
+    background-size: 40px 400px;
+    height: 100%;
+}
+
+.adminmain {
+    width: 90%;
+    height: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 28px 20px;
+}
+
+li {
+    width: 76px;
+    background-color: rgb(248, 248, 248);
+    border-radius: 10px;
+}
+
+.adminitem {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px 0 0 0;
+    margin: 0 0 20px 0;
+}
+
+.adminitem i {
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    margin: 7px 0 3px 0;
+}
+
+.adminitem h4 {
+    width: 100%;
+    font-weight: 600;
+    text-align: center;
+}
+
+.logout {
+    box-sizing: border-box;
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.logout button {
+    width: 100%;
+    height: 30px;
+    background-color: rgb(252, 252, 252);
+}
+
+.admintitle {
+    box-sizing: border-box;
+    text-align: center;
+    margin: 6px 15px 10px 15px;
+    background: #e0be92;
+    border-bottom: 3px solid #e0be92;
+    border-radius: 5px;
+    height: 5%;
+}
+
+.order,
+.menu,
+.setting {
+    width: 100%;
+    height: 100%;
+}
+
+#appadmin {
+    height: 100%;
+}
+
+.admincontent {
+    height: 92%;
+}
+
+.order {
+    display: flex;
+
+}
+
+.orderlist {
+    box-sizing: border-box;
+    width: 65%;
+    padding: 15px;
+    border-right: 5px solid #e0be92;
+}
+
+.ordersitem {
+    box-sizing: border-box;
+    width: 35%;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.listfilter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    height: 6%;
+}
+
+.filterbtn {
+    width: 100px;
+    height: 40px;
+    margin: 0 17px;
+    background: transparent;
+    border-bottom: 2px solid #e0be92;
+    border-radius: 0px;
+}
+
+.filterunfocus {
+    opacity: 0.4;
+}
+
+.listcontent {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    align-content: flex-start;
+}
+
+.eachorder {
+    margin: 10px 20px;
+    padding: 12px;
+    display: flex;
+    border-bottom: 2px solid #e0be92;
+    background-color: #a5a5a524;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 15px;
+}
+
+.orderfocus {
+    background-color: #e0be92c7;
+    border: 2px solid rgb(32, 32, 32);
+}
+
+.datela {
+    border-radius: 10px;
+    background-color: rgba(248, 248, 248);
+}
+
+.ordertaketime {
+    width: 65px;
+    text-align: center;
+    margin: 0 15px;
+    padding-right: 10px;
+    border-right: 3px solid #936a36;
+}
+
+.ordernumber {
+    width: 60px;
+    height: 60px;
+    font-size: 55px;
+    text-align: center;
+}
+
+.orderguest {
+    width: 100px;
+    margin: 0 15px;
+}
+
+.orderid {
+    display: flex;
+    align-items: flex-end;
+    flex-grow: 1;
+    justify-content: end;
+    flex-direction: column;
+}
+
+.orderitemguest i {
+    opacity: 0.4;
+    margin: 0 10px;
+}
+
+.orderitemguest p {
+    margin: 8px 15px;
+}
+
+.orderitemguest {
+    padding: 15px 0;
+    margin-bottom: 10px;
+    border-bottom: 3px dashed #e0be92;
+}
+
+.orderitemslist {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.itemmain {
+    width: 100%;
+}
+
+.item {
+    width: 100%;
+    height: 70px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #e0be92c7;
+}
+
+.itemname {
+    width: 100%;
+}
+
+.itemcontent {}
+
+.itemnumber {
+    display: inline;
+    float: right;
+}
+
+.itemprice {
+    display: inline;
+    width: 46px;
+    float: right;
+    text-align: right;
+    padding-left: 40px;
+}
+
+.totalnumberspan {
+    float: right;
+}
+
+.fefijqf {
+    float: left;
+}
+
+.ordertotal {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.ordertotal h4 {
+    width: 100%;
+}
+
+.itemmat {
+    display: inline;
+}
+
+.itemmat span {
+    margin-right: 5px;
+}
+
+.datetitle {
+    box-sizing: border-box;
+    padding-left: 20px;
+    width: 100%;
+}
+
+.conorder {
+    width: 100%;
+}
+
+.bonusmtlsspan {
+    color: red;
+}
+
+.shopinfo {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 15px 30px;
+    overflow-y: auto;
+}
+
+.setinfo label {
+    padding: 5px 0;
+    font-size: 19px;
+}
+
+.setinfo input {
+    margin: 0 20px;
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+.setinfo {
+    position: relative;
+    padding-left: 15px;
+    border-left: 3px solid #936a36;
+    margin-bottom: 20px;
+}
+
+.setitem {
+    margin: 8px 0;
+    padding-left: 10px;
+
+}
+
+.setinfo h2 {
+    padding-left: 10px;
+    background-color: #dfcbb0;
+    border-radius: 5px;
+}
+
+.settaketime {
+    display: flex;
+
+}
+
+.setdate {
+    width: 50%;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+}
+
+.settaketime h3 {
+    background-color: #dfcbb0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.settime {
+    width: 50%;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.settaketime h3 {
+    text-align: center;
+}
+
+.settaketime h3 {
+    width: 100%;
+}
+
+.slmaxday {
+    position: relative;
+    width: 100px;
+    height: 33px;
+    border-bottom: 2px solid #dfcbb0;
+    margin: 0 10px;
+}
+
+.maxdaymodal {
+    position: relative;
+    top: 8px;
+    background-color: #dfcbb0;
+    border-radius: 5px;
+}
+
+.option {
+    padding: 7px 10px;
+    font-family: 'Noto Serif TC', serif;
+    border-bottom: 1px solid beige;
+    border-radius: 5px;
+}
+
+.option:hover {
+    background-color: #e0be92;
+}
+
+.slmaxday h4 {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.dateconfig {
+    width: 100%;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.datepick {
+    width: 90px;
+    height: 32px;
+    border-radius: 15px;
+    background-color: #e0be92;
+    text-align: center;
+    font-size: 18px;
+    margin: 10px 10px;
+}
+
+.datepick span {
+    display: block;
+    font-size: 15px;
+}
+
+.datedisable {
+    background-color: rgb(158, 0, 0);
+}
+
+.updatebtn {
+    width: 87px;
+    height: 35px;
+    margin: 0 4px;
+    /* background: #b02b2b; */
+    background: rgb(158, 0, 0);
+    color: white;
+    border-radius: 5px;
+}
+
+.updating {
+    opacity: 0.4;
+}
+
+.setcontent {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.setinterval {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.interval {
+    width: 100px;
+    height: 33px;
+    margin: 0 10px;
+    border-bottom: 2px solid #dfcbb0;
+}
+
+.interval h4 {
+    text-align: center;
+}
+
+.intervalmodal {
+    position: relative;
+    top: 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #dfcbb0;
+}
+
+.hide {
+    display: none;
+}
+
+.timemodal {
+    width: 62px;
+    margin: 0 10px;
+}
+
+.setinterval span {
+    margin: 0 10px;
+}
+
+.overflowmodal {
+    height: 200px;
+    width: 90px;
+    overflow-y: auto;
+}
+
+.infobtn {
+    position: absolute;
+    right: 0;
+}
+
+.note {
+    word-wrap: break-word;
+}
+
+.btnstatus {
+    width: 100%;
+}
+
+.orderchenckstatus {
+    width: 100%;
+    position: sticky;
+    bottom: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.orderchenckstatus button {
+    width: 150px;
+    height: 45px;
+    padding: 0;
+}
+
+.emptyorderlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+.emptyorderlist h2 {
+    opacity: 0.6;
+}
+
+.menu {
+    display: flex;
+}
+
+.menulist {
+    box-sizing: border-box;
+    width: 18%;
+    height: 100%;
+    padding: 15px 30px;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid #e0be92;
+}
+
+.menuclass {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-bottom: 2px solid #e0be92;
+}
+
+.menucontent {
+    width: 86%;
+    height: 100%;
+    padding: 26px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.menuitems {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.menuitem {
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.menucontent h2{
+    padding-left: 10px;
+    background-color: #dfcbb0;
+    border-radius: 5px;
+}
+.statusbtn{
+    display: flex;
+    align-items: center;
+}
+.statusbtn button {
+    width: 105px;
+    font-size: 15px;
+    height: 37px;
+    margin: 0 8px;
+    opacity: 0.7;
+}
+.onsupply{
+    opacity: 1 !important;
+
+    background-color: rgb(98 160 98);
+}
+.soldout{
+    opacity: 1 !important;
+
+    background-color: rgb(158, 0, 0);
+    color: rgb(238, 238, 238);
+}
+#waitapi{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f7f7f7b3;
+    display: none;
+}
+.wrap{
+    height: calc(var(--vh,1vh) * 100);
+}
+
+.confirmnew{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e0be92;
+}
+.confirmnew h3{
+    color: white;
+    align-items: center;
+}

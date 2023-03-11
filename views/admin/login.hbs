@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../css/adminLogin_style.css">
+    <title>奧野管理系統-登入</title>
+</head>
+
+<body>
+    <div class="loing-container">
+
+        <div class="login-content">
+            <div class="login-title">
+                <h1>奧野豆花</h1>
+            </div>
+            <form action="" method="post">
+                <div class="login-input">
+                    <input type="text" id="inputac" name="account" placeholder="管理帳號">
+                </div>
+                <div class="login-input">
+                    <input type="password" id="inputpw" name="password" placeholder="密碼">
+                </div>
+                <div class="login-input">
+                    <div class="login-btn">
+                        <button type="button" id="loginbtn">登入</button>
+                    </div>
+                </div>
+            </form>
+            <h4 id="alert"></h4>
+        </div>
+    </div>
+    <script src="../js/admin/FE_adminLogin.js"></script>
+</body>
+
+</html>

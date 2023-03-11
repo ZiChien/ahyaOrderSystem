@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/admin_style.css">
+    {{!-- fontawesome --}}
+    <script src="https://kit.fontawesome.com/358b6c58bb.js" crossorigin="anonymous"></script>
+    {{!-- vue3 --}}
+    <script src="js/vue.global.prod.min.js"></script>
+    {{!-- axios-1.1.2 --}}
+    <script src="js/axios.min.js"></script>
+    {{!-- moment --}}
+    <script src="js/moment.js"></script>
+    <script src="js/moment-timezone-with-data-10-year-range.js"></script>
+
+
+    <title>adminstrator</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="container wrap">
+            <div class="leftbar">
+                <ul>
+                    <li @click="changepage(0)">
+                        <div class="adminitem">
+                            <i class="fa-solid fa-list"></i>
+                            <h4>訂單</h4>
+                        </div>
+                    </li>
+                    <li @click="changepage(1)">
+                        <div class="adminitem">
+                            <i class="fa-solid fa-utensils"></i>
+                            <h4>菜單</h4>
+                        </div>
+                    </li>
+                    <li @click="changepage(2)">
+                        <div class="adminitem">
+                            <i class="fa-solid fa-shop"></i>
+                            <h4>店家資訊</h4>
+                        </div>
+                    </li>
+                </ul>
+                <div class="logout">
+                    <button @click="logout">登出</button>
+                </div>
+            </div>
+            <div class="adminmain">
+                <div class="admintitle">
+                    <h2>\{{currentpage}}</h2>
+                </div>
+                <div class="admincontent">
+                    <div class="order" v-show="isshow[0].isshow">
+                        <div class="orderlist">
+                            <div class="listfilter">
+                                <button @click="changeorderdata(index+1)" v-for="(item ,index) in orderlistpage"
+                                    class="filterbtn" :class="{filterunfocus:!item.isfocus}">\{{item.status}}</button>
+
+                            </div>
+                            <div class="listcontent" v-if="orderdata.data.length">
+                                <div class="conorder" v-for="(order,index) in orderdata.data" :key="order.orderID">
+                                    <div class="datetitle" v-show="sortdate(order.taketime,index)">
+                                        <h3>\{{dateformat(order.taketime)}}</h3>
+                                    </div>
+                                    <div class="eachorder" @click="Cfocusorder(index)"
+                                        :class="{'orderfocus': order.isfocus}">
+                                        <div class="ordertaketime">
+                                            <h4 class="datela">\{{dateformat(order.taketime)}}</h4>
+                                            <h4>\{{timeformat(order.taketime)}}</h4>
+                                        </div>
+                                        <div class="orderguest">
+                                            <h4>\{{order.name}}</h4>
+                                            <h4>\{{order.phone}}</h4>
+                                        </div>
+
+                                        <div class="ordernumber">
+                                            \{{order.takenumber}}
+                                        </div>
+                                        <div class="orderid">
+                                            <span v-show="order.isready">已準備完成</span>
+                                            <span class="orderid">orderid:\{{order.orderID}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="emptyorderlist" v-if="!orderdata.data.length">
+                                <h2>無訂單</h2>
+                            </div>
+                        </div>
+                        <div class="ordersitem">
+                            <div class="orderitemguest">
+                                <h4><i class="fa-solid fa-clock"></i>\{{dateformat(orderDetail.order.taketime)}}
+                                    \{{timeformat(orderDetail.order.taketime)}}</h4>
+                                <h4><i class="fa-solid fa-tags"></i>\{{orderDetail.order.orderID}}</h4>
+                                <h4><i class="fa-solid fa-user"></i>\{{orderDetail.order.name}}</h4>
+                                <h4><i class="fa-solid fa-phone"></i>\{{orderDetail.order.phone}}</h4>
+                                <h4><i class="fa-solid fa-pen"></i>備註<p class="note">\{{orderDetail.order.note}}</p>
+                                </h4>
+                            </div>
+                            <div class="orderitemslist">
+                                <div class="item" v-for="item in orderDetail.order.content">
+                                    <div class="itemmain">
+                                        <h4 class="itemname">\{{item.name}}</h4>
+
+                                    </div>
+                                    <div class="itemcontent">
+                                        <div class="itemmat">
+                                            <span v-for="mtl in item.mtls">\{{mtl.name}}</span>
+                                            <span class="bonusmtlsspan"
+                                                v-for="mtl in item.bonusmtls">\{{mtl.name}}</span>
+                                        </div>
+                                        <div class="itemprice">
+                                            <span>\{{item.price}}</span>
+                                        </div>
+                                        <div class="itemnumber">
+                                            <span>x\{{item.number}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ordertotal">
+                                    <h4>共\{{orderDetail.order.number}}份餐點</h4>
+                                    <h4><span class="fefijqf">總計</span><span
+                                            class="totalnumberspan">\{{orderDetail.order.total}}</span></h4>
+                                </div>
+                            </div>
+                            <div class="orderchenckstatus" v-if="!orderDetail.order.istake">
+                                <button @click="checkready(orderDetail.order.orderID)">餐點已準備完成</button>
+                                <button @click="checktake(orderDetail.order.orderID)">訂單已完成</button>
+                            </div>
+
+                        </div>
+                        
+
+                    </div>
+                    <div class="menu" v-show="isshow[1].isshow">
+                        <div class="menulist">
+                            <div @click="changemenufilter(0)" class="menuclass" :class="{filterunfocus:!menufilter[0]}"><h3>配料</h3></div>
+                            <div @click="changemenufilter(1)" class="menuclass" :class="{filterunfocus:!menufilter[1]}"><h3>夏天系列</h3></div>
+                            <div @click="changemenufilter(2)" class="menuclass" :class="{filterunfocus:!menufilter[2]}"><h3>冬天系列</h3></div>
+                        </div>
+                        <div class="menucontent" v-show="menufilter[0]">
+                            <h2>配料</h2>
+                            <div class="menuitems">
+                                <div class="menuitem" v-for="(mtl,index) in mtls.data" :key="mtl.id">
+                                    <h3>\{{mtl.name}}</h3>
+                                    <div class="statusbtn">
+                                        <button @click="onsupplybtn(index)" :class="{onsupply:mtl.onsupply}">供應中</button>
+                                        <button @click="soldoutbtn(index)" :class="{soldout:mtl.soldout}">本日已售完</button>
+                                        <button @click="notsupplybtn(index)" :class="{soldout:mtl.notsupply}">永久停售</button>
+                                        {{!-- <button class="soldout filterunfocus">本日已售完</button>
+                                        <button class="soldout">永久停售</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menucontent" v-show="menufilter[1]">
+                            <h2>夏天系列</h2>
+                            <div class="menuitems">
+                                <div class="menuitem" v-for="(mtl,index) in summermenu.data" :key="mtl.id">
+                                    <h3>\{{mtl.itemname}}</h3>
+                                    <div class="statusbtn">
+                                        <button @click="summeronsupplybtn(index,0)" :class="{onsupply:mtl.status[0]}">供應中</button>
+                                        <button @click="summeronsupplybtn(index,1)" :class="{soldout:mtl.status[1]}">本日已售完</button>
+                                        <button @click="summeronsupplybtn(index,2)" :class="{soldout:mtl.status[2]}">永久停售</button>
+                                        {{!-- <button class="soldout filterunfocus">本日已售完</button>
+                                        <button class="soldout">永久停售</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menucontent" v-show="menufilter[2]">
+                            <h2>冬天系列</h2>
+                            <div class="menuitems">
+                                <div class="menuitem" v-for="(mtl,index) in wintermenu.data" :key="mtl.id">
+                                    <h3>\{{mtl.itemname}}</h3>
+                                    <div class="statusbtn">
+                                        <button @click="winteronsupplybtn(index,0)" :class="{onsupply:mtl.status[0]}">供應中</button>
+                                        <button @click="winteronsupplybtn(index,1)" :class="{soldout:mtl.status[1]}">本日已售完</button>
+                                        <button @click="winteronsupplybtn(index,2)" :class="{soldout:mtl.status[2]}">永久停售</button>
+                                        {{!-- <button class="soldout filterunfocus">本日已售完</button>
+                                        <button class="soldout">永久停售</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="setting" v-show="isshow[2].isshow">
+                        <div class="shopinfo">
+                            <div class="setinfo">
+                                <h2>店家資訊</h2>
+                                <div class="setitem">
+                                    <label for="shopname">店家名稱</label>
+                                    <input id="shopname" type="text" v-model="shopinfo.name">
+
+                                </div>
+                                <button class="updatebtn infobtn" @click="updateinfo">更新</button>
+                                <div class="setitem">
+                                    <label for="shopaddress">店家地址</label>
+                                    <input id="shopaddress" type="text" v-model="shopinfo.address">
+                                </div>
+                            </div>
+                            <div class="setinfo">
+                                <h2>可供自取時間</h2>
+                                <div class="settaketime">
+                                    <div class="setdate">
+
+                                        <h3>日期</h3>
+                                        <span>可供日期上限</span>
+                                        <div class="slmaxday" @click="showmaxmodal">
+                                            <h4 id="slmaxday">\{{currentmax.optionname}}</h4>
+                                            <div id="maxdaymodal" class="maxdaymodal" v-show="isshowmaxmodal">
+                                                <div class="option" v-for="(option,index) in maxoption"
+                                                    @click="Cselectmax(index)">\{{option.optionname}}</div>
+                                            </div>
+                                        </div>
+                                        <button @click="updatedate" class="updatebtn" :disable="isupdating">更新</button>
+                                        <div class="dateconfig" :class="{updating: isupdating}">
+                                            <div class="datepick" v-for="(date,index) in filterdate"
+                                                @click="Cenabledate(index)" :class="{datedisable:!date.enable}"
+                                                :key="getMonthDate(date.date)">
+                                                <span>\{{getMonthDate(date.date)}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="settime">
+                                        <h3>時間</h3>
+                                        <div class="setcontent">
+                                            <div class="setinterval">
+
+                                                <span>取餐時間</span>
+                                                <button class="updatebtn" @click="updatetimebtn">更新</button>
+                                            </div>
+                                            <div class="setinterval">
+                                                <div class="interval timemodal" @click="showtimemodal">
+                                                    <h4 id="starthour">\{{starttime.starthour}}</h4>
+                                                    <div class="maxdaymodal overflowmodal"
+                                                        v-show="starttime.isshowhourmodal">
+                                                        <div class="option" v-for="(item,index) in timeconfig.hour"
+                                                            @click="Cselecthour(index)">\{{item}}</div>
+                                                    </div>
+                                                </div>
+                                                <span>:</span>
+                                                <div class="interval timemodal" @click="showstartminmodal">
+                                                    <h4 id="startmin">\{{starttime.startmin}}</h4>
+                                                    <div class="maxdaymodal overflowmodal"
+                                                        v-show="starttime.isshowminmodal">
+                                                        <div class="option" v-for="(item,index) in timeconfig.min"
+                                                            @click="Cselectmin(index)">\{{item}}</div>
+                                                    </div>
+                                                </div>
+                                                <span>至</span>
+                                                <div class="interval timemodal" @click="showendhour">
+                                                    <h4 id="endhour">\{{endtime.endhour}}</h4>
+                                                    <div class="maxdaymodal overflowmodal"
+                                                        v-show="endtime.isshowhourmodal">
+                                                        <div class="option" v-for="(item,index) in timeconfig.hour"
+                                                            @click="Cselectendhour(index)">\{{item}}</div>
+
+                                                    </div>
+                                                </div>
+                                                <span>:</span>
+                                                <div class="interval timemodal" @click="showendmin">
+                                                    <h4 id="endmin">\{{endtime.endmin}}</h4>
+                                                    <div class="maxdaymodal overflowmodal"
+                                                        v-show="endtime.isshowminmodal">
+                                                        <div class="option" v-for="(item,index) in timeconfig.min"
+                                                            @click="Cselectendmin(index)">\{{item}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div @click="clickoffConfirm" class="confirmnew" v-show="isshowConfirm">
+                <h3>點擊任何一處確認新訂單</h3>
+            </div>
+        </div>
+    </div>
+    <div id="waitapi"></div>
+    <script src="/js/admin/FE_admin.js"></script>
+</body>
+
+</html>
