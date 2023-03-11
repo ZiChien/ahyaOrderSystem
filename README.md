@@ -20,16 +20,16 @@
 
 ## 技術
 
-**express.js**
+#### express.js
 藉由express建立後端伺服器、管理router、開api。
 
-**vue3**
+#### vue3
 因為管理介面需要頻繁的更新資料與畫面，因此如何以管理資料的角度驅動畫面為本次使用vue3框架的學習重點。由於第一次使用vue，因此未使用組件(.vue)，而是通通寫在一支JS裡，這讓我意識到程式除了變得難以維護，也失去了框架理念的核心之一。
 
-**mongodb Atlas**
+#### mongodb Atlas
 資料庫使用mongodb雲端。
 
-**line message api、liff**
+#### line message api、liff
 為了提高使用者訂餐的效率，使用line作為媒介非常適合。
 
 
