@@ -2,7 +2,8 @@
 
 ![ahya Order System](https://github.com/ZiChien/ahyaOrderSystem/blob/readme/github/asset/ahyaCover.png)
 #### Demo:<https://orderahya.fly.dev/>
-#### line:<https://lin.ee/EUHRyXV> ![line](https://github.com/ZiChien/ahyaOrderSystem/blob/readme/github/asset/linefriend.png)
+#### line:<https://lin.ee/EUHRyXV> 
+![line](https://github.com/ZiChien/ahyaOrderSystem/blob/readme/github/asset/linefriend.png)
 
 ## 概述
 
