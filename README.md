@@ -1,6 +1,8 @@
 # ahya豆花線上訂餐系統
 
 ![ahya Order System](https://github.com/ZiChien/ahyaOrderSystem/blob/readme/github/asset/ahyaCover.png)
+#### Demo:<https://orderahya.fly.dev/>
+#### line:<https://lin.ee/EUHRyXV>
 
 ## 概述
 
