@@ -35,9 +35,9 @@ app.use('/admin', admin_router)
 //////////////////////////////////////////////////////////////////
 const autoSetDate = require('./controller/autodate.js')
 autoSetDate.start()
-//autoSetDate.resetdate()
+// autoSetDate.resetdate()
 
-const PORT = 3300 || process.env.PORT
+const PORT = process.env.PORT || 3030;
 const HOST = '0.0.0.0'
 app.listen(PORT, HOST, () => {
     console.log(`server is running on ${HOST}:${PORT}`)
